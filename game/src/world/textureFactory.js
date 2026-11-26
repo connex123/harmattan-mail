@@ -5,13 +5,13 @@ import { mulberry32 } from '../core/rng.js';
 export function makeCanvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
 export function toTexture(c, repeat = false) {
   const t = new THREE.CanvasTexture(c);
-  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+  t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 16;
   if (repeat) t.wrapS = t.wrapT = THREE.RepeatWrapping;
   return t;
 }
 
 export function groundDetailTexture() {
-  const c = makeCanvas(256, 256), g = c.getContext('2d'), r = mulberry32(3);
+  const c = makeCanvas(512, 512), g = c.getContext('2d'), r = mulberry32(3); g.scale(2, 2);
   g.fillStyle = '#ece1d0'; g.fillRect(0, 0, 256, 256);
   for (let i = 0; i < 2600; i++) {
     const v = 120 + r() * 120 | 0;
@@ -29,7 +29,7 @@ export function groundDetailTexture() {
 
 // Laterite strip: packed red earth, wheel tracks, white threshold bars, centre dashes, edge stones.
 export function stripTexture() {
-  const W = 128, L = 1024, c = makeCanvas(W, L), g = c.getContext('2d'), r = mulberry32(5);
+  const W = 128, L = 1024, c = makeCanvas(W * 2, L * 2), g = c.getContext('2d'), r = mulberry32(5); g.scale(2, 2);
   g.fillStyle = '#c9683a'; g.fillRect(0, 0, W, L);
   g.fillStyle = '#d98b57'; g.fillRect(0, 0, 14, L); g.fillRect(W - 14, 0, 14, L);
   g.fillStyle = 'rgba(110,45,25,0.28)'; g.fillRect(40, 0, 9, L); g.fillRect(79, 0, 9, L);
@@ -49,7 +49,7 @@ export function stripTexture() {
 }
 
 export function minaretTexture() {
-  const c = makeCanvas(128, 256), g = c.getContext('2d'), r = mulberry32(9);
+  const c = makeCanvas(256, 512), g = c.getContext('2d'), r = mulberry32(9); g.scale(2, 2);
   g.fillStyle = '#c98c54'; g.fillRect(0, 0, 128, 256);
   for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(${r() < 0.5 ? '240,200,150' : '110,60,30'},${0.08 + r() * 0.14})`; g.fillRect(r() * 128, r() * 256, 2 + r() * 6, 1 + r() * 3); }
   g.fillStyle = '#7d4526'; for (const y of [0, 118, 244]) g.fillRect(0, y, 128, 12);
@@ -61,7 +61,7 @@ export function minaretTexture() {
 }
 
 export function clinicRoofTexture() {
-  const c = makeCanvas(256, 128), g = c.getContext('2d');
+  const c = makeCanvas(512, 256), g = c.getContext('2d'); g.scale(2, 2);
   g.fillStyle = '#b6222c'; g.fillRect(0, 0, 256, 128);
   g.fillStyle = '#f7efdc'; g.fillRect(0, 0, 256, 10); g.fillRect(0, 118, 256, 10);
   g.fillStyle = '#f7efdc'; g.beginPath(); g.moveTo(128, 100); g.bezierCurveTo(40, 52, 80, 14, 128, 42); g.bezierCurveTo(176, 14, 216, 52, 128, 100); g.fill();
@@ -69,7 +69,7 @@ export function clinicRoofTexture() {
 }
 
 export function courtyardTargetTexture() {
-  const c = makeCanvas(256, 256), g = c.getContext('2d');
+  const c = makeCanvas(512, 512), g = c.getContext('2d'); g.scale(2, 2);
   g.fillStyle = '#e8c597'; g.fillRect(0, 0, 256, 256);
   const rings = [['#c8202f', 120], ['#f7efdc', 94], ['#c8202f', 66], ['#f7efdc', 38], ['#1d2c8f', 16]];
   for (const [col, rad] of rings) { g.fillStyle = col; g.beginPath(); g.arc(128, 128, rad, 0, 7); g.fill(); }

@@ -65,6 +65,6 @@ export function buildMailbird() {
   }
   add(exterior, new THREE.CylinderGeometry(0.14, 0.14, 0.12, 8), dark, 0, -0.85, 3.55, { rz: Math.PI / 2 });
   add(exterior, new THREE.CylinderGeometry(0.04, 0.04, 0.8, 5), steel, 0, -0.5, 3.4, { rx: 0.2 });
-  root.traverse((m) => { if (m.isMesh && m.material.map) m.material.map.anisotropy = 8; });
+  root.traverse((m) => { if (m.isMesh && m.material.map) m.material.map.anisotropy = 16; });
   return { root, exterior, nose, propGroup, disc };
 }

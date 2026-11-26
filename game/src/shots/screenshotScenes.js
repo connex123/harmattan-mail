@@ -35,7 +35,9 @@ const SCENES = {
     pose(g, { x: 3, z: 485, heading: 0, agl: 36, speed: 42, throttle: 0.55, fuel: 64, pitch: -1.5, bank: 0, flaps: 1 });
     g.setCameraMode('cockpit'); g.ac.model.nose.visible = false; g.state.bannerT = 0;
     g.sky.setDust(0.95, 0.0034);
-    css('#hud #mTitle{font-size:0}#hud #mTitle:after{content:"DUST WHITEOUT";font-size:34px}');
+    css('#hud #mTitle,#hud #mObj,#hud #mWpt{font-size:0}#hud #mTitle:after{content:"DUST WHITEOUT";font-size:34px}'
+      + '#hud #mObj:after{content:"Land on the laterite using the lamps and drums in the haze";font-size:18px}'
+      + '#hud #mWpt:after{content:"LAMP ROW 0.1 KM AHEAD";font-size:18px}');
   },
   // FUEL DIVERT: LOW FUEL warning kept big but up top; plane, strip and ring stay clear below it.
   mission(g) {

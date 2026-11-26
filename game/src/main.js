@@ -21,7 +21,7 @@ state.shot = !!shotName;
 
 const canvas = document.getElementById('view');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(shotName ? 1 : Math.min(devicePixelRatio, 1.5));
+renderer.setPixelRatio(shotName ? 2 : Math.min(devicePixelRatio, 1.5));
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(56, innerWidth / innerHeight, 0.4, 14000);
