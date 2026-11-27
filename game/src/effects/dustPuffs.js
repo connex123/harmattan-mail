@@ -1,7 +1,7 @@
 // Pooled soft dust / smoke puffs (one Points object, per-particle size, colour and alpha).
 import * as THREE from 'three';
 
-const N = 320;
+const N = 560;
 export function createDust(scene) {
   const pos = new Float32Array(N * 3), col = new Float32Array(N * 3), size = new Float32Array(N), alpha = new Float32Array(N);
   const vel = new Float32Array(N * 3), life = new Float32Array(N), max = new Float32Array(N), grow = new Float32Array(N), base = new Float32Array(N);
@@ -16,7 +16,14 @@ export function createDust(scene) {
     vertexShader: `attribute float size; attribute float alpha; attribute vec3 aColor; varying float vA; varying vec3 vC; uniform float scale;
       void main(){ vA=alpha; vC=aColor; vec4 mv=modelViewMatrix*vec4(position,1.0); gl_PointSize=size*scale/max(-mv.z,1.0); gl_Position=projectionMatrix*mv; }`,
     fragmentShader: `varying float vA; varying vec3 vC;
-      void main(){ float d=length(gl_PointCoord-0.5)*2.0; float a=smoothstep(1.0,0.15,d)*vA; if(a<0.01) discard; gl_FragColor=vec4(vC,a);
+      float h(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+      float vn(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.0-2.0*f); return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y); }
+      void main(){
+        vec2 q=gl_PointCoord-0.5; float d=length(q)*2.0;
+        float n=vn(q*5.0+vC.rg*17.0)*0.6+vn(q*11.0+vC.gb*9.0)*0.4;
+        float a=smoothstep(0.98,0.74,d+(n-0.5)*0.55)*smoothstep(1.0,0.82,d)*vA; if(a<0.02) discard;
+        float lit=0.8+0.35*(0.5-q.y)+0.25*(n-0.5);
+        gl_FragColor=vec4(vC*lit,min(a*1.25,0.92));
         #include <colorspace_fragment>
       }`,
   });

@@ -134,7 +134,7 @@ function frame(dtRaw, o = {}) {
 export const game = { THREE, renderer, scene, camera, world, ac, rig, runner, effects, hud, state, input, frame, startMission, setCameraMode, sky, cockpit, STRIPS, SITES };
 
 if (shotName) {
-  import('./shots/screenshotScenes.js').then((m) => (shotName === 'selftest' ? m.selfTest(game) : m.runShot(game, shotName, seed))).catch((e) => { console.error('BOOT_FAIL ' + e.stack); document.title = 'SHOT_FAIL'; });
+  new Promise((res) => setTimeout(res, 30)).then(() => import('./shots/screenshotScenes.js')).then((m) => (shotName === 'selftest' ? m.selfTest(game) : m.runShot(game, shotName, seed))).catch((e) => { console.error('BOOT_FAIL ' + e.stack); document.title = 'SHOT_FAIL'; });
 } else {
   toBriefing();
   renderer.setAnimationLoop(() => frame(clock.getDelta()));

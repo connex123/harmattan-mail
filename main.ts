@@ -4,7 +4,7 @@
 // at run time). This program (Node 22, standard library only) hands it in: it copies game/ and screenshots/ from
 // beside this file to /output and writes /output/dossier.json, the summary the judge reads, with the vendored
 // make.fun library. Four sorties (clinic drop, cattle-market mail, dust whiteout, fuel divert) fly a Kasaire K-3
-// Mailbird with Ankara livery from laterite strips past baobabs, mud-brick huts and a painted market-town minaret.
+// Mailbird with Ankara livery from laterite strips past baobabs and a banco mosque over a crowded market with zebu herds, danfos and okadas.
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:

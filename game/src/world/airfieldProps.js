@@ -38,7 +38,7 @@ export function createAirfieldProps(scene, heightAt) {
   }
 
   // hangar + fuel drums by Fada, west of the start line
-  const h = new MeshBuilder(23), hx = -62, hz = 300, hy = heightAt(hx, hz);
+  const h = new MeshBuilder(23), hx = 66, hz = 300, hy = heightAt(hx, hz);
   h.box(22, 6.5, 13, { x: hx, y: hy + 3.25, z: hz, color: 0xe6d6b4 });
   h.box(12, 5.2, 0.4, { x: hx + 4, y: hy + 2.8, z: hz + 6.6, color: 0x1d4fa8 });
   h.box(23.5, 0.35, 8.2, { x: hx, y: hy + 7.3, z: hz - 3.3, rz: 0.0, rx: 0.4, color: 0xb9553a });

@@ -20,7 +20,7 @@ export function isBlocked(x, z, margin = 0) {
     const { u, v } = stripLocal(s, x, z);
     if (Math.abs(u) < s.length / 2 + 520 && Math.abs(v) < s.width / 2 + 60 + margin) return true;
   }
-  for (const [k, r] of [['kasaire', 190], ['dango', 80], ['clinic', 100], ['kraal', 140], ['market', 100]]) {
+  for (const [k, r] of [['kasaire', 190], ['dango', 80], ['clinic', 100], ['kraal', 140], ['market', 100], ['town', 150], ['hamlet', 120]]) {
     if (Math.hypot(x - SITES[k].x, z - SITES[k].z) < r + margin) return true;
   }
   return false;

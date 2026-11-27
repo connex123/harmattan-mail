@@ -14,6 +14,7 @@ function base(x, z) {
 const PADS = [];
 for (const s of Object.values(STRIPS)) PADS.push({ strip: s, x: s.x, z: s.z, h: base(s.x, s.z) - (s.id === 'gossi' ? 3 : 0) });
 PADS.push({ x: SITES.kasaire.x, z: SITES.kasaire.z, r: 170, h: base(SITES.kasaire.x, SITES.kasaire.z) });
+PADS.push({ x: SITES.town.x, z: SITES.town.z, r: 120, h: base(SITES.town.x, SITES.town.z) });
 PADS.push({ x: SITES.dango.x, z: SITES.dango.z, r: 90, h: base(SITES.dango.x, SITES.dango.z) });
 PADS.push({ x: SITES.clinic.x, z: SITES.clinic.z, r: 90, h: base(SITES.clinic.x, SITES.clinic.z) });
 PADS.push({ x: SITES.pan.x, z: SITES.pan.z, r: 560, h: base(SITES.pan.x, SITES.pan.z) - 3 });

@@ -19,6 +19,8 @@ export const SITES = {
   clinic:  { x: -1650, z: -2450, name: 'Yelwa clinic' },
   kraal:   { x: 2340, z: -1450, name: 'Bakari kraal' },
   market:  { x: 2230, z: -1458, name: 'Bakari market' },
+  town:    { x: -137, z: 270, name: 'Kasaire town' },
+  hamlet:  { x: 3440, z: 1870, name: 'Gossi hamlet' },
   pan:     { x: 3600, z: 1800, r: 700, name: 'Lake Gossi dry pan' },
 };
 

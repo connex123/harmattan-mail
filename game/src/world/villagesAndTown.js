@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { SITES } from '../core/config.js';
 import { MeshBuilder } from '../core/geomUtil.js';
+import { addZebu } from './cattle.js';
 import { mulberry32 } from '../core/rng.js';
 import { minaretTexture, clinicRoofTexture, courtyardTargetTexture } from './textureFactory.js';
 
@@ -22,15 +23,7 @@ function stall(b, x, y, z, color, ry) {
   b.box(1.1, 0.5, 0.8, { ...rot(0.9, 0, x, z, ry), y: y + 1.2, color: 0xf3e8cf });
 }
 function rot(px, pz, x, z, ry) { const c = Math.cos(ry), s = Math.sin(ry); return { x: x + px * c + pz * s, z: z - px * s + pz * c }; }
-function cow(b, x, y, z, ry, color) {
-  const o = (px, pz) => rot(px, pz, x, z, ry);
-  b.box(2.8, 1.2, 1.1, { x, y: y + 1.45, z, ry, color });
-  b.box(0.9, 0.55, 0.6, { ...o(1.6, 0), y: y + 1.45, ry, color: 0x6a3f22 });
-  b.box(0.8, 0.9, 0.9, { ...o(1.65, 0), y: y + 1.7, ry, color });
-  b.cone(0.12, 0.5, 4, { ...o(1.7, 0.45), y: y + 2.25, ry, rz: -0.5, color: 0xf3e8cf });
-  b.cone(0.12, 0.5, 4, { ...o(1.7, -0.45), y: y + 2.25, ry, rz: 0.5, color: 0xf3e8cf });
-  for (const [px, pz] of [[-1, -0.4], [-1, 0.4], [1, -0.4], [1, 0.4]]) b.box(0.22, 1.0, 0.22, { ...o(px, pz), y: y + 0.5, color: 0x3b2414 });
-}
+function cow(b, x, y, z, ry, color) { addZebu(b, x, y, z, ry, color); }
 
 export function createLandmarks(scene, heightAt) {
   const r = mulberry32(44), obstacles = [];

@@ -19,13 +19,21 @@ function css(text) {
 const LOW_HUD = '#hud .gauge{top:auto!important;bottom:110px;width:200px;padding:6px 12px}#hud .gauge .big{font-size:60px}#hud #missionBox{width:340px;padding:6px 14px}#hud #mTitle{font-size:34px}'
   + '#hud #fuelBox,#hud #thrBox{width:300px}#hud #hint{display:none}#hud #fuelBox .lab,#hud #thrBox .lab{font-size:24px}';
 
+// Park the target ring as a flyable gate over a chosen spot (the staged shot frames the market without hiding the plane).
+function ringAt(g, x, z, agl, r, headingDeg) {
+  const m = g.runner.marker; m.visible = true;
+  m.position.set(x, g.world.groundHeight(x, z) + agl, z); m.scale.setScalar(r); m.rotation.set(0, -headingDeg * DEG, 0);
+  g.runner.ring.rotation.x = g.runner.ring2.rotation.x = 0; g.runner.col.visible = false;
+}
+
 const SCENES = {
   // THE COVER: chase view, clinic-drop mission on its last step, ring over the Fada threshold, minaret + baobabs + huts.
   chase(g) {
     g.startMission(1); g.runner.setStep(4);
-    pose(g, { x: -48, z: 520, heading: 0, agl: 58, speed: 46, throttle: 0.6, fuel: 78, pitch: -3, bank: 5, flaps: 1 });
-    g.rig.offset.set(2.4, 3.6, 10.5); g.rig.aimDown = 3.0; g.rig.lookAhead = 18; g.rig.fovBase = 64;
-    g.sky.setDust(0.55, 0.0011);
+    pose(g, { x: -76, z: 372, heading: 333, agl: 17, speed: 44, throttle: 0.6, fuel: 78, pitch: -1, bank: 6, flaps: 1 });
+    g.rig.offset.set(3.6, 6.0, 12); g.rig.aimDown = 1.0; g.rig.lookAhead = 24; g.rig.fovBase = 53;
+    ringAt(g, -108, 306, 13, 13, 333);
+    g.sky.setDust(0.4, 0.0008);
     css(LOW_HUD + '#hud #thrBox{display:none}#hud #altBox{bottom:20px}#hud #mObj,#hud #mWpt{font-size:15px}');
     g.state.bannerT = 0;
   },
@@ -42,7 +50,7 @@ const SCENES = {
   // FUEL DIVERT: LOW FUEL warning kept big but up top; plane, strip and ring stay clear below it.
   mission(g) {
     g.startMission(4); g.runner.leakOn = true; g.runner.t = 40;
-    pose(g, { x: 3180, z: 1800, heading: 90, agl: 55, speed: 40, throttle: 0.25, fuel: 8, pitch: -3, bank: -3 });
+    pose(g, { x: 3240, z: 1790, heading: 90, agl: 42, speed: 40, throttle: 0.25, fuel: 8, pitch: -3, bank: -3 });
     g.ac.leak = 0.03; g.runner.env.wind = [-6, 0];
     g.rig.offset.set(3.0, 3.6, 11.5); g.rig.aimDown = 2.4; g.rig.lookAhead = 18; g.rig.fovBase = 62;
     css(LOW_HUD + '#hud #warn{top:140px;font-size:64px;padding:0 30px;letter-spacing:4px}#hud #banner{font-size:24px;width:380px;max-width:380px;bottom:20px}#hud #fuelBox{width:330px}#hud #thrBox{display:none}#hud #altBox{bottom:20px}');
@@ -51,9 +59,10 @@ const SCENES = {
   // CATTLE-MARKET MAIL: short-field flare with heavy laterite dust at the gear, kraal and stalls to the side.
   landing(g) {
     g.startMission(2); g.runner.setStep(1);
-    pose(g, { x: 2200, z: -1500, heading: 90, agl: 2.0, speed: 32, throttle: 0.08, fuel: 41, pitch: 7, bank: 0, flaps: 2 });
+    pose(g, { x: 2196, z: -1509, heading: 99, agl: 2.0, speed: 32, throttle: 0.08, fuel: 41, pitch: 7, bank: 0, flaps: 2 });
     g.rig.offset.set(5.2, 3.4, 12.5); g.rig.aimDown = 0.8; g.rig.lookAhead = 16; g.rig.fovBase = 62;
     css(LOW_HUD + '#hud #banner{font-size:22px;width:340px;max-width:340px;left:auto;right:20px;transform:none;bottom:20px}#hud #thrBox{display:none}');
+    ringAt(g, 2268, -1497, 8, 11, 90);
     banner('SHORT FIELD — HOLD THE FLARE', 99);
   },
 };
@@ -68,9 +77,9 @@ export async function runShot(g, name, seed) {
   for (let i = 0; i < 6; i++) g.frame(1 / 30, { freeze: true });
   if (name === 'landing' && !location.search.includes('nodust')) {
     const f = g.ac.forward();
-    for (let i = 0; i < 70; i++) {
-      const d = -7 + i * 0.17, sd = (i % 2 ? 1 : -1) * (1.0 + (i % 6) * 0.6);
-      g.effects.burst(g.ac.pos.x - f.x * d, gh + 0.3, g.ac.pos.z - f.z * d + sd, 1, { size: 1.0 + (i % 4) * 0.45, spread: 1.2, up: 1.2, life: 3, aged: true, alpha: 0.8, color: i % 3 ? 0xcf7a34 : 0xe3a25c });
+    for (let i = 0; i < 130; i++) {
+      const d = -7 + i * 0.1, sd = (i % 2 ? 1 : -1) * (1.0 + (i % 6) * 0.6);
+      g.effects.burst(g.ac.pos.x - f.x * d, gh + 0.3, g.ac.pos.z - f.z * d + sd, 1, { size: 0.6 + (i % 4) * 0.28, spread: 1.4, up: 1.4, life: 3, aged: true, alpha: 0.8, color: i % 3 ? 0xcf7a34 : 0xe3a25c });
     }
   }
   for (let i = 0; i < 4; i++) g.frame(1 / 30, { freeze: true });

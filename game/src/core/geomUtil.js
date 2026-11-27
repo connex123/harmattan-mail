@@ -43,3 +43,19 @@ export class MeshBuilder {
     return m;
   }
 }
+
+// Rotate a local (px, pz) offset by yaw ry about (x, z); matches three's rotation.y.
+export function rotXZ(px, pz, x, z, ry) {
+  const c = Math.cos(ry), s = Math.sin(ry);
+  return { x: x + px * c + pz * s, z: z - px * s + pz * c };
+}
+// A builder view in a local frame (origin ox,oy,oz, yaw ry, uniform scale s): lets a vehicle or building be authored in metres.
+export function local(b, ox, oy, oz, ry = 0, s = 1) {
+  const at = (o) => { const p = rotXZ((o.x || 0) * s, (o.z || 0) * s, ox, oz, ry); return { ...o, x: p.x, z: p.z, y: oy + (o.y || 0) * s, ry: ry + (o.ry || 0) }; };
+  return {
+    box: (w, h, d, o = {}) => b.box(w * s, h * s, d * s, at(o)),
+    cyl: (rt, rb, h, seg, o = {}) => b.cyl(rt * s, rb * s, h * s, seg, at(o)),
+    cone: (r, h, seg, o = {}) => b.cone(r * s, h * s, seg, at(o)),
+    sphere: (r, o = {}, seg = 8) => b.sphere(r * s, at(o), seg),
+  };
+}
